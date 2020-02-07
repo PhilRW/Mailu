@@ -24,7 +24,7 @@ def token_create(user_email):
     user_email = user_email or flask_login.current_user.email
     user = models.User.query.get(user_email) or flask.abort(404)
     form = forms.TokenForm()
-    wtforms_components.read_only(form.displayed_password)
+    wtforms_components.read_only(form.displayed_password(disabled=False))
     if not form.raw_password.data:
         form.raw_password.data = pwd.genword(entropy=128, charset="hex")
         form.displayed_password.data = form.raw_password.data
