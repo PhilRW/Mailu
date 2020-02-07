@@ -1,3 +1,5 @@
+from wtforms_components import ReadOnlyWidgetProxy
+
 from mailu import models
 from mailu.ui import ui, forms, access
 
@@ -25,7 +27,7 @@ def token_create(user_email):
     user = models.User.query.get(user_email) or flask.abort(404)
     form = forms.TokenForm()
     wtforms_components.read_only(form.displayed_password)
-    delattr(form.displayed_password.widget, "disabled")
+    delattr(form.displayed_password, "disabled")
     if not form.raw_password.data:
         form.raw_password.data = pwd.genword(entropy=128, charset="hex")
         form.displayed_password.data = form.raw_password.data
